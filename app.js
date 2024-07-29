@@ -1,8 +1,8 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const aws = require('aws-sdk');
@@ -15,8 +15,8 @@ const { generateEmbedding } = require('langchain'); // Adjust this import based 
 
 
 
-var indexRouter = require('./src/routes/index');
-var usersRouter = require('./src/routes/users');
+const indexRouter = require('./src/routes/index');
+const usersRouter = require('./src/routes/users');
 
 const { upload, uploadFile } = require('./src/lib/uploadxx');
 const { generateEmbeddings } = require('./src/lib/embeddings');
@@ -27,7 +27,7 @@ dotenv.config();
 // set the server port
 const PORT = 3001 //process.env.PORT || 3001;
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
