@@ -18,7 +18,7 @@ const { generateEmbedding } = require('langchain'); // Adjust this import based 
 const indexRouter = require('../src/routes/index');
 const usersRouter = require('../src/routes/users');
 
-const { upload, uploadFile } = require('../src/lib/uploadxx');
+const { upload, uploadFile } = require('../src/lib/upload');
 const { generateEmbeddings } = require('../src/lib/embeddings');
 const { queryRAG } = require('../src/lib/rag');
 

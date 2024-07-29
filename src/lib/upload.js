@@ -1,26 +1,27 @@
-// upload.js
 const multer = require('multer');
-const { GridFsStorage } = require('multer-gridfs-storage');
 const { connectDB } = require('./database');
+const { Readable } = require('stream');
 
-const storage = new GridFsStorage({
-  url: process.env.MONGODB_URI,
-  options: { useNewUrlParser: true, useUnifiedTopology: true },
-  file: (req, file) => {
-    return {
-      bucketName: 'uploads',
-      filename: `${Date.now()}-${file.originalname}`
-    };
-  }
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-const uploadFile = async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
+const uploadFile = async (req, res, next) => {
+  try {
+    const { bucket } = await connectDB();
+
+    const file = req.file;
+    const readableStream = new Readable();
+    readableStream.push(file.buffer);
+    readableStream.push(null);
+
+    const uploadStream = bucket.openUploadStream(file.originalname);
+    readableStream.pipe(uploadStream)
+      .on('error', (error) => next(error))
+      .on('finish', () => res.status(200).json({ message: 'File uploaded successfully' }));
+  } catch (error) {
+    next(error);
+    // throw new Error(error)
   }
-  res.status(201).json({ fileId: req.file.id });
 };
 
 module.exports = { upload, uploadFile };

@@ -9,16 +9,8 @@ let bucket;
 const connectDB = async () => {
   if (!db) {
     await client.connect();
-    db = client.db('ragDB'); // Ensure 'ragDB' is your database name
+    db = client.db('ragDB');
     bucket = new GridFSBucket(db);
-    // console.log('Database connected:', db.collection("embeddings")); // Debug log
-        // for debugging
-    const collection = db.collection('embeddings');
-  
-    const documents = await collection.find().toArray();
-    // console.log(documents);
-    // for debugging
-    
   }
   return { db, bucket };
 };
