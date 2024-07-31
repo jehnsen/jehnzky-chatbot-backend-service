@@ -74,7 +74,7 @@ const generateEmbeddings = async (req, res) => {
     return res.status(400).json({ error: 'Invalid file ID' });
   }
 
-  if (!['pdf', 'csv', 'json', 'xlsx', 'xls', 'txt'].includes(fileType)) {
+  if (!['pdf', 'csv', 'json', 'xlsx', 'xls', 'txt', 'md'].includes(fileType)) {
     return res.status(400).json({ error: 'Unsupported file type' });
   }
 
